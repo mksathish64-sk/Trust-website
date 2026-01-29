@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Trust</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .about-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+        .mission-box {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+        .mission-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .mission-box h3 {
+            font-size: 2rem;
+            margin: 1rem 0;
+            color: var(--primary-color);
+        }
+        .stats {
+            background: var(--bg-light);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .stat-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        .stat-label {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🌟 Trust</a>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/pages/about.html" class="active">About</a></li>
+                <li><a href="/pages/programs.html">Programs</a></li>
+                <li><a href="/pages/gallery.html">Gallery</a></li>
+                <li><a href="/pages/contact.html">Contact</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Hero -->
+    <div class="about-hero">
+        <h1>About Our Trust</h1>
+        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">Dedicated to creating lasting positive change in communities through compassion, innovation, and sustainable development</p>
+    </div>
+
+    <!-- Our Story -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Story</h2>
+            </div>
+            <p style="font-size: 1.1rem; line-height: 1.8; max-width: 900px; margin: 0 auto; text-align: center; color: var(--text-light);">
+                Founded with a vision to make a meaningful difference in people's lives, our Trust has been serving communities for years. 
+                We believe in the power of collective action and work tirelessly to address social challenges through innovative programs 
+                and partnerships. Our journey started with a simple idea: that every person deserves access to basic necessities, education, 
+                and opportunities for growth. Today, we continue to expand our reach and impact, touching lives and transforming communities 
+                one initiative at a time.
+            </p>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section style="background: var(--bg-light);">
+        <div class="container">
+            <div class="mission-vision">
+                <div class="mission-box">
+                    <div style="font-size: 4rem;">🎯</div>
+                    <h3>Our Mission</h3>
+                    <p style="color: var(--text-light); line-height: 1.8;">
+                        To empower individuals and communities through sustainable programs in education, healthcare, 
+                        and skill development, creating pathways to self-reliance and prosperity.
+                    </p>
+                </div>
+                <div class="mission-box">
+                    <div style="font-size: 4rem;">👁️</div>
+                    <h3>Our Vision</h3>
+                    <p style="color: var(--text-light); line-height: 1.8;">
+                        A world where every individual has access to opportunities, resources, and support needed to 
+                        live a dignified life and contribute positively to society.
+                    </p>
+                </div>
+                <div class="mission-box">
+                    <div style="font-size: 4rem;">💎</div>
+                    <h3>Our Values</h3>
+                    <p style="color: var(--text-light); line-height: 1.8;">
+                        Integrity, compassion, innovation, accountability, and community partnership guide everything 
+                        we do as we work toward creating lasting social impact.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <div class="stats">
+        <div class="container">
+            <h2 style="color: var(--primary-color); margin-bottom: 3rem;">Our Impact in Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">10K+</div>
+                    <div class="stat-label">Lives Impacted</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Communities Served</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Active Programs</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Volunteers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Trust</h3>
+                <p>We are committed to serving communities and creating lasting positive impact through our programs and initiatives.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a>
+                <a href="/pages/about.html">About Us</a>
+                <a href="/pages/programs.html">Programs</a>
+                <a href="/pages/gallery.html">Gallery</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>📧 Email: info@trust.org</p>
+                <p>📞 Phone: +1 234 567 8900</p>
+                <p>📍 Address: 123 Trust Street, City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;">Admin Login</a></p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

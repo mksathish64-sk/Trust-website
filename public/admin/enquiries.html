@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Enquiries - Admin Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>🌟 Trust Admin</h2>
+                <p id="admin-username">Admin</p>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
+                <li><a href="/admin/programs.html">📚 Programs</a></li>
+                <li><a href="/admin/gallery.html">🖼️ Gallery</a></li>
+                <li><a href="/admin/announcements.html">📢 Announcements</a></li>
+                <li><a href="/admin/enquiries.html" class="active">✉️ Enquiries</a></li>
+                <li><a href="/admin/reports.html">📄 Reports</a></li>
+                <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Contact Enquiries</h1>
+            </header>
+
+            <div class="admin-content">
+                <div class="content-card">
+                    <div id="enquiries-container"><div class="loader"></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Enquiry Details</h2>
+                <span class="modal-close" onclick="document.getElementById('viewModal').classList.remove('active')">&times;</span>
+            </div>
+            <div id="enquiry-details"></div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        async function loadEnquiries() {
+            const container = document.getElementById('enquiries-container');
+            try {
+                const enquiries = await adminApiCall('/api/enquiries');
+                if (enquiries.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✉️</div><p>No enquiries yet</p></div>';
+                    return;
+                }
+
+                container.innerHTML = `<div class="table-container"><table>
+                    <thead><tr><th>Name</th><th>Email</th><th>Subject</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                    <tbody>${enquiries.map(enq => `
+                        <tr>
+                            <td>${enq.name}</td>
+                            <td>${enq.email}</td>
+                            <td>${enq.subject || 'N/A'}</td>
+                            <td><span class="badge ${enq.status === 'new' ? 'badge-danger' : enq.status === 'read' ? 'badge-warning' : 'badge-success'}">${enq.status}</span></td>
+                            <td>${formatDate(enq.submitted_at)}</td>
+                            <td><div class="btn-group">
+                                <button class="btn btn-small btn-view" onclick="viewEnquiry(${enq.id})">View</button>
+                                <button class="btn btn-small btn-delete" onclick="deleteEnquiry(${enq.id})">Delete</button>
+                            </div></td>
+                        </tr>
+                    `).join('')}</tbody>
+                </table></div>`;
+            } catch (error) {
+                container.innerHTML = '<p style="color: var(--accent-color);">Failed to load</p>';
+            }
+        }
+
+        async function viewEnquiry(id) {
+            try {
+                const enquiries = await adminApiCall('/api/enquiries');
+                const enq = enquiries.find(e => e.id === id);
+                
+                document.getElementById('enquiry-details').innerHTML = `
+                    <p><strong>Name:</strong> ${enq.name}</p>
+                    <p><strong>Email:</strong> ${enq.email}</p>
+                    <p><strong>Phone:</strong> ${enq.phone || 'N/A'}</p>
+                    <p><strong>Subject:</strong> ${enq.subject || 'N/A'}</p>
+                    <p><strong>Message:</strong><br>${enq.message}</p>
+                    <p><strong>Submitted:</strong> ${formatDate(enq.submitted_at)}</p>
+                    <div style="margin-top: 1.5rem;">
+                        <label><strong>Status:</strong></label>
+                        <select id="status-select" class="form-group" style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;">
+                            <option value="new" ${enq.status === 'new' ? 'selected' : ''}>New</option>
+                            <option value="read" ${enq.status === 'read' ? 'selected' : ''}>Read</option>
+                            <option value="responded" ${enq.status === 'responded' ? 'selected' : ''}>Responded</option>
+                        </select>
+                        <button class="btn" onclick="updateStatus(${id})" style="width: 100%;">Update Status</button>
+                    </div>
+                `;
+                
+                document.getElementById('viewModal').classList.add('active');
+                
+                if (enq.status === 'new') {
+                    await adminApiCall(`/api/enquiries/${id}/status`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ status: 'read' })
+                    });
+                    loadEnquiries();
+                }
+            } catch (error) {
+                showAdminNotification('Failed to load', 'error');
+            }
+        }
+
+        async function updateStatus(id) {
+            const status = document.getElementById('status-select').value;
+            try {
+                await adminApiCall(`/api/enquiries/${id}/status`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ status })
+                });
+                showAdminNotification('Status updated');
+                document.getElementById('viewModal').classList.remove('active');
+                loadEnquiries();
+            } catch (error) {
+                showAdminNotification('Failed to update', 'error');
+            }
+        }
+
+        async function deleteEnquiry(id) {
+            if (!confirmAction('Delete this enquiry?')) return;
+            try {
+                await adminApiCall(`/api/enquiries/${id}`, { method: 'DELETE' });
+                showAdminNotification('Deleted');
+                loadEnquiries();
+            } catch (error) {
+                showAdminNotification('Failed', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setActiveMenu('enquiries');
+            loadEnquiries();
+        });
+    </script>
+</body>
+</html>

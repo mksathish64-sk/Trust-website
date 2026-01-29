@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Announcements - Admin Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>🌟 Trust Admin</h2>
+                <p id="admin-username">Admin</p>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
+                <li><a href="/admin/programs.html">📚 Programs</a></li>
+                <li><a href="/admin/gallery.html">🖼️ Gallery</a></li>
+                <li><a href="/admin/announcements.html" class="active">📢 Announcements</a></li>
+                <li><a href="/admin/enquiries.html">✉️ Enquiries</a></li>
+                <li><a href="/admin/reports.html">📄 Reports</a></li>
+                <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Manage Announcements</h1>
+                <button class="btn" onclick="openAnnouncementModal()">+ Add Announcement</button>
+            </header>
+
+            <div class="admin-content">
+                <div class="content-card">
+                    <div id="announcements-container"><div class="loader"></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="announcementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Announcement</h2>
+                <span class="modal-close" onclick="closeAnnouncementModal()">&times;</span>
+            </div>
+            <form id="announcementForm">
+                <input type="hidden" id="announcement-id">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="announcement-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Content *</label>
+                    <textarea id="announcement-content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select id="announcement-type">
+                        <option value="announcement">Announcement</option>
+                        <option value="event">Event</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Event Date (for events)</label>
+                    <input type="date" id="announcement-event-date">
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="announcement-status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        let currentEditId = null;
+
+        async function loadAnnouncements() {
+            const container = document.getElementById('announcements-container');
+            try {
+                const announcements = await adminApiCall('/api/announcements/admin/all');
+                if (announcements.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📢</div><p>No announcements yet</p></div>';
+                    return;
+                }
+
+                container.innerHTML = `<div class="table-container"><table>
+                    <thead><tr><th>Title</th><th>Type</th><th>Status</th><th>Date</th><th>Actions</th></tr></thead>
+                    <tbody>${announcements.map(ann => `
+                        <tr>
+                            <td><strong>${ann.title}</strong></td>
+                            <td><span class="badge ${ann.type === 'event' ? 'badge-info' : 'badge-success'}">${ann.type}</span></td>
+                            <td><span class="badge ${ann.status === 'active' ? 'badge-success' : 'badge-warning'}">${ann.status}</span></td>
+                            <td>${formatDate(ann.created_at)}</td>
+                            <td><div class="btn-group">
+                                <button class="btn btn-small btn-edit" onclick="editAnnouncement(${ann.id})">Edit</button>
+                                <button class="btn btn-small btn-delete" onclick="deleteAnnouncement(${ann.id})">Delete</button>
+                            </div></td>
+                        </tr>
+                    `).join('')}</tbody>
+                </table></div>`;
+            } catch (error) {
+                container.innerHTML = '<p style="color: var(--accent-color);">Failed to load</p>';
+            }
+        }
+
+        function openAnnouncementModal(data = null) {
+            currentEditId = data?.id || null;
+            document.getElementById('modal-title').textContent = data ? 'Edit Announcement' : 'Add Announcement';
+            document.getElementById('announcement-id').value = data?.id || '';
+            document.getElementById('announcement-title').value = data?.title || '';
+            document.getElementById('announcement-content').value = data?.content || '';
+            document.getElementById('announcement-type').value = data?.type || 'announcement';
+            document.getElementById('announcement-event-date').value = data?.event_date || '';
+            document.getElementById('announcement-status').value = data?.status || 'active';
+            document.getElementById('announcementModal').classList.add('active');
+        }
+
+        function closeAnnouncementModal() {
+            document.getElementById('announcementModal').classList.remove('active');
+            currentEditId = null;
+        }
+
+        async function editAnnouncement(id) {
+            try {
+                const response = await adminApiCall(`/api/announcements/admin/all`);
+                const announcement = response.find(a => a.id === id);
+                openAnnouncementModal(announcement);
+            } catch (error) {
+                showAdminNotification('Failed to load', 'error');
+            }
+        }
+
+        async function deleteAnnouncement(id) {
+            if (!confirmAction('Delete this announcement?')) return;
+            try {
+                await adminApiCall(`/api/announcements/${id}`, { method: 'DELETE' });
+                showAdminNotification('Deleted');
+                loadAnnouncements();
+            } catch (error) {
+                showAdminNotification('Failed', 'error');
+            }
+        }
+
+        document.getElementById('announcementForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('announcement-title').value,
+                content: document.getElementById('announcement-content').value,
+                type: document.getElementById('announcement-type').value,
+                event_date: document.getElementById('announcement-event-date').value || null,
+                status: document.getElementById('announcement-status').value
+            };
+
+            try {
+                const url = currentEditId ? `/api/announcements/${currentEditId}` : '/api/announcements';
+                await adminApiCall(url, { method: currentEditId ? 'PUT' : 'POST', body: JSON.stringify(data) });
+                showAdminNotification('Saved');
+                closeAnnouncementModal();
+                loadAnnouncements();
+            } catch (error) {
+                showAdminNotification('Failed', 'error');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setActiveMenu('announcements');
+            loadAnnouncements();
+        });
+    </script>
+</body>
+</html>

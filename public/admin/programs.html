@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Programs - Admin Panel</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2>🌟 Trust Admin</h2>
+                <p id="admin-username">Admin</p>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
+                <li><a href="/admin/programs.html" class="active">📚 Programs</a></li>
+                <li><a href="/admin/gallery.html">🖼️ Gallery</a></li>
+                <li><a href="/admin/announcements.html">📢 Announcements</a></li>
+                <li><a href="/admin/enquiries.html">✉️ Enquiries</a></li>
+                <li><a href="/admin/reports.html">📄 Reports</a></li>
+                <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+            </ul>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Manage Programs</h1>
+                <button class="btn" onclick="openProgramModal()">+ Add Program</button>
+            </header>
+
+            <div class="admin-content">
+                <div class="content-card">
+                    <div id="programs-container">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Program Modal -->
+    <div id="programModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Program</h2>
+                <span class="modal-close" onclick="closeProgramModal()">&times;</span>
+            </div>
+            <form id="programForm">
+                <input type="hidden" id="program-id">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="program-title" required>
+                </div>
+                <div class="form-group">
+                    <label>Short Description *</label>
+                    <textarea id="program-description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Full Description</label>
+                    <textarea id="program-full-description" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Image</label>
+                    <input type="file" id="program-image" accept="image/*">
+                    <div id="current-image" style="margin-top: 0.5rem;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="program-status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Save Program</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script>
+        let currentEditId = null;
+
+        async function loadPrograms() {
+            const container = document.getElementById('programs-container');
+            try {
+                const programs = await adminApiCall('/api/programs/admin/all');
+                
+                if (programs.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">📚</div><p>No programs yet. Add your first program!</p></div>';
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Status</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${programs.map(prog => `
+                                    <tr>
+                                        <td><strong>${prog.title}</strong></td>
+                                        <td>${prog.description.substring(0, 100)}...</td>
+                                        <td><span class="badge ${prog.status === 'active' ? 'badge-success' : 'badge-warning'}">${prog.status}</span></td>
+                                        <td>${formatDate(prog.created_at)}</td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <button class="btn btn-small btn-edit" onclick="editProgram(${prog.id})">Edit</button>
+                                                <button class="btn btn-small btn-delete" onclick="deleteProgram(${prog.id})">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            } catch (error) {
+                container.innerHTML = '<p style="color: var(--accent-color);">Failed to load programs</p>';
+            }
+        }
+
+        function openProgramModal(program = null) {
+            currentEditId = program?.id || null;
+            document.getElementById('modal-title').textContent = program ? 'Edit Program' : 'Add Program';
+            document.getElementById('program-id').value = program?.id || '';
+            document.getElementById('program-title').value = program?.title || '';
+            document.getElementById('program-description').value = program?.description || '';
+            document.getElementById('program-full-description').value = program?.full_description || '';
+            document.getElementById('program-status').value = program?.status || 'active';
+            document.getElementById('program-image').value = '';
+            document.getElementById('current-image').innerHTML = program?.image_url ? `<img src="${program.image_url}" style="max-width: 200px; border-radius: 5px;">` : '';
+            document.getElementById('programModal').classList.add('active');
+        }
+
+        function closeProgramModal() {
+            document.getElementById('programModal').classList.remove('active');
+            document.getElementById('programForm').reset();
+            currentEditId = null;
+        }
+
+        async function editProgram(id) {
+            try {
+                const response = await adminApiCall(`/api/programs/${id}`);
+                openProgramModal(response);
+            } catch (error) {
+                showAdminNotification('Failed to load program', 'error');
+            }
+        }
+
+        async function deleteProgram(id) {
+            if (!confirmAction('Are you sure you want to delete this program?')) return;
+
+            try {
+                await adminApiCall(`/api/programs/${id}`, { method: 'DELETE' });
+                showAdminNotification('Program deleted successfully');
+                loadPrograms();
+            } catch (error) {
+                showAdminNotification('Failed to delete program', 'error');
+            }
+        }
+
+        document.getElementById('programForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('title', document.getElementById('program-title').value);
+            formData.append('description', document.getElementById('program-description').value);
+            formData.append('full_description', document.getElementById('program-full-description').value);
+            formData.append('status', document.getElementById('program-status').value);
+
+            const imageFile = document.getElementById('program-image').files[0];
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            try {
+                const url = currentEditId ? `/api/programs/${currentEditId}` : '/api/programs';
+                const method = currentEditId ? 'PUT' : 'POST';
+
+                await fetch(url, {
+                    method,
+                    body: formData
+                }).then(res => res.json());
+
+                showAdminNotification(`Program ${currentEditId ? 'updated' : 'created'} successfully`);
+                closeProgramModal();
+                loadPrograms();
+            } catch (error) {
+                showAdminNotification('Failed to save program', 'error');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setActiveMenu('programs');
+            loadPrograms();
+        });
+    </script>
+</body>
+</html>

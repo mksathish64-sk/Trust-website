@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Programs - Trust</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .programs-hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            margin-top: 70px;
+        }
+        .programs-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .program-detail {
+            display: none;
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+        .program-detail.active {
+            display: block;
+        }
+        .program-detail img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        .back-btn {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: var(--text-light);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+        .back-btn:hover {
+            background: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">🌟 Trust</a>
+            <ul class="nav-menu">
+                <li><a href="/">Home</a></li>
+                <li><a href="/pages/about.html">About</a></li>
+                <li><a href="/pages/programs.html" class="active">Programs</a></li>
+                <li><a href="/pages/gallery.html">Gallery</a></li>
+                <li><a href="/pages/contact.html">Contact</a></li>
+            </ul>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Programs Hero -->
+    <div class="programs-hero">
+        <h1>Our Programs</h1>
+        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">Transforming lives through education, healthcare, and community development</p>
+    </div>
+
+    <!-- Programs List -->
+    <section id="programs-list-section">
+        <div class="container">
+            <div id="programs-container" class="cards-grid">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Detail View -->
+    <section id="program-detail-section" style="display: none;">
+        <div class="container">
+            <div id="program-detail" class="program-detail"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Trust</h3>
+                <p>We are committed to serving communities and creating lasting positive impact through our programs and initiatives.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a href="/">Home</a>
+                <a href="/pages/about.html">About Us</a>
+                <a href="/pages/programs.html">Programs</a>
+                <a href="/pages/gallery.html">Gallery</a>
+            </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <p>📧 Email: info@trust.org</p>
+                <p>📞 Phone: +1 234 567 8900</p>
+                <p>📍 Address: 123 Trust Street, City</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;">Admin Login</a></p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+    <script>
+        let allPrograms = [];
+
+        async function loadPrograms() {
+            const container = document.getElementById('programs-container');
+            
+            try {
+                allPrograms = await apiCall('/api/programs');
+                
+                if (allPrograms.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No programs available at the moment.</p>';
+                    return;
+                }
+
+                container.innerHTML = allPrograms.map(program => `
+                    <div class="card" onclick="showProgramDetail(${program.id})">
+                        ${program.image_url ? `
+                            <img src="${program.image_url}" alt="${program.title}" class="card-image" 
+                                 onerror="this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(program.title)}'">
+                        ` : `
+                            <div class="card-image" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
+                                📚
+                            </div>
+                        `}
+                        <div class="card-content">
+                            <h3>${program.title}</h3>
+                            <p>${program.description}</p>
+                            <a href="#program-${program.id}" class="btn" style="margin-top: 1rem; display: inline-block;" onclick="event.stopPropagation();">Learn More</a>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Check if hash points to a specific program
+                if (window.location.hash) {
+                    const programId = parseInt(window.location.hash.replace('#program-', ''));
+                    if (programId) {
+                        showProgramDetail(programId);
+                    }
+                }
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center; color: var(--accent-color); grid-column: 1/-1;">Failed to load programs.</p>';
+            }
+        }
+
+        function showProgramDetail(programId) {
+            const program = allPrograms.find(p => p.id === programId);
+            if (!program) return;
+
+            const detailContainer = document.getElementById('program-detail');
+            const listSection = document.getElementById('programs-list-section');
+            const detailSection = document.getElementById('program-detail-section');
+
+            detailContainer.innerHTML = `
+                <a href="#" class="back-btn" onclick="hideProgramDetail(); return false;">← Back to Programs</a>
+                ${program.image_url ? `
+                    <img src="${program.image_url}" alt="${program.title}" 
+                         onerror="this.src='https://via.placeholder.com/900x400?text=${encodeURIComponent(program.title)}'">
+                ` : ''}
+                <h1 style="color: var(--primary-color); margin-bottom: 1rem;">${program.title}</h1>
+                <p style="color: var(--text-light); line-height: 1.8; font-size: 1.1rem;">
+                    ${program.full_description || program.description}
+                </p>
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 2px solid var(--bg-light);">
+                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Get Involved</h3>
+                    <p style="color: var(--text-light); margin-bottom: 1rem;">
+                        Interested in supporting or learning more about this program? 
+                    </p>
+                    <a href="/pages/contact.html" class="btn">Contact Us</a>
+                </div>
+            `;
+
+            detailContainer.classList.add('active');
+            listSection.style.display = 'none';
+            detailSection.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideProgramDetail() {
+            const detailContainer = document.getElementById('program-detail');
+            const listSection = document.getElementById('programs-list-section');
+            const detailSection = document.getElementById('program-detail-section');
+
+            detailContainer.classList.remove('active');
+            listSection.style.display = 'block';
+            detailSection.style.display = 'none';
+            window.location.hash = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Listen for hash changes
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash) {
+                const programId = parseInt(window.location.hash.replace('#program-', ''));
+                if (programId && allPrograms.length > 0) {
+                    showProgramDetail(programId);
+                }
+            } else {
+                hideProgramDetail();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadPrograms);
+    </script>
+</body>
+</html>
