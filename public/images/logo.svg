@@ -1,0 +1,67 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circular Background with Gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="anchorGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0e7ff;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Outer Circle -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" opacity="0.95"/>
+  
+  <!-- Inner Circle with glow -->
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Anchor Symbol -->
+  <g transform="translate(100, 100)" filter="url(#glow)">
+    <!-- Anchor Ring -->
+    <circle cx="0" cy="-25" r="12" fill="none" stroke="url(#anchorGradient)" stroke-width="5"/>
+    
+    <!-- Anchor Shank -->
+    <rect x="-3" y="-25" width="6" height="55" fill="url(#anchorGradient)" rx="3"/>
+    
+    <!-- Anchor Arms -->
+    <path d="M -25 20 Q -15 25 0 30 Q 15 25 25 20" 
+          fill="none" 
+          stroke="url(#anchorGradient)" 
+          stroke-width="6" 
+          stroke-linecap="round"/>
+    
+    <!-- Anchor Flukes (curved ends) -->
+    <path d="M -25 20 Q -35 25 -30 35" 
+          fill="none" 
+          stroke="url(#anchorGradient)" 
+          stroke-width="6" 
+          stroke-linecap="round"/>
+    <path d="M 25 20 Q 35 25 30 35" 
+          fill="none" 
+          stroke="url(#anchorGradient)" 
+          stroke-width="6" 
+          stroke-linecap="round"/>
+    
+    <!-- Heart shape overlay (symbolizing hope and care) -->
+    <path d="M 0,-10 C -3,-14 -8,-14 -10,-10 C -12,-6 -10,0 0,8 C 10,0 12,-6 10,-10 C 8,-14 3,-14 0,-10 Z" 
+          fill="#ff6b35" 
+          opacity="0.8"/>
+  </g>
+  
+  <!-- Decorative Stars -->
+  <g fill="#ffd93d" opacity="0.6">
+    <circle cx="35" cy="35" r="2"/>
+    <circle cx="165" cy="35" r="2"/>
+    <circle cx="35" cy="165" r="2"/>
+    <circle cx="165" cy="165" r="2"/>
+  </g>
+</svg>
