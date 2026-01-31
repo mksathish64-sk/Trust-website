@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - HopeHarbor Foundation</title>
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/admin.css">
 </head>
+
 <body>
     <div class="admin-container">
         <!-- Sidebar -->
         <aside class="admin-sidebar">
             <div class="admin-sidebar-header">
-                <h2>⚓ HopeHarbor Admin</h2>
-                <p id="admin-username">Admin</p>
+                <h2><i class="ri-anchor-line"></i> HopeHarbor Admin</h2>
+                <p id="admin-username">Admin Panel</p>
             </div>
             <ul class="admin-menu">
-                <li><a href="/admin/dashboard.html" class="active">📊 Dashboard</a></li>
-                <li><a href="/admin/programs.html">📚 Programs</a></li>
-                <li><a href="/admin/gallery.html">🖼️ Gallery</a></li>
-                <li><a href="/admin/announcements.html">📢 Announcements</a></li>
-                <li><a href="/admin/enquiries.html">✉️ Enquiries</a></li>
-                <li><a href="/admin/reports.html">📄 Reports</a></li>
-                <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+                <li><a href="/admin/dashboard.html" class="active"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="/admin/programs.html"><i class="ri-book-open-line"></i> Programs</a></li>
+                <li><a href="/admin/gallery.html"><i class="ri-image-2-line"></i> Gallery</a></li>
+                <li><a href="/admin/announcements.html"><i class="ri-megaphone-line"></i> Announcements</a></li>
+                <li><a href="/admin/enquiries.html"><i class="ri-mail-star-line"></i> Enquiries</a></li>
+                <li><a href="/admin/reports.html"><i class="ri-file-list-3-line"></i> Reports</a></li>
+                <li><a href="#" onclick="logout()"><i class="ri-logout-box-r-line"></i> Logout</a></li>
             </ul>
         </aside>
 
@@ -32,8 +35,9 @@
             <header class="admin-header">
                 <h1>Dashboard</h1>
                 <div>
-                    <button class="btn btn-small" onclick="window.open('/', '_blank')">View Website</button>
-                    <button class="btn btn-small btn-delete" onclick="logout()">Logout</button>
+                    <button class="btn btn-small" onclick="window.open('/', '_blank')"><i
+                            class="ri-external-link-line"></i> View Website</button>
+                    <!-- Logout is in sidebar primarily, but kept here for access -->
                 </div>
             </header>
 
@@ -45,14 +49,14 @@
 
                 <!-- Recent Activity -->
                 <div class="content-card">
-                    <h2>Recent Enquiries</h2>
+                    <h2><i class="ri-mail-unread-line"></i> Recent Enquiries</h2>
                     <div id="recent-enquiries">
                         <div class="loader"></div>
                     </div>
                 </div>
 
                 <div class="content-card">
-                    <h2>Active Announcements</h2>
+                    <h2><i class="ri-notification-3-line"></i> Active Announcements</h2>
                     <div id="active-announcements">
                         <div class="loader"></div>
                     </div>
@@ -79,23 +83,23 @@
 
                 container.innerHTML = `
                     <div class="stat-card">
-                        <h3>Total Programs</h3>
+                        <h3><i class="ri-book-open-line"></i> Total Programs</h3>
                         <div class="number">${programs.length}</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Gallery Images</h3>
+                        <h3><i class="ri-image-line"></i> Gallery Images</h3>
                         <div class="number">${gallery.length}</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Announcements</h3>
+                        <h3><i class="ri-megaphone-line"></i> Announcements</h3>
                         <div class="number">${announcements.length}</div>
                     </div>
                     <div class="stat-card">
-                        <h3>New Enquiries</h3>
+                        <h3><i class="ri-mail-star-line"></i> New Enquiries</h3>
                         <div class="number" style="color: var(--accent-color);">${newEnquiries}</div>
                     </div>
                     <div class="stat-card">
-                        <h3>Reports</h3>
+                        <h3><i class="ri-file-text-line"></i> Reports</h3>
                         <div class="number">${reports.length}</div>
                     </div>
                 `;
@@ -135,10 +139,9 @@
                                         <td>${enq.email}</td>
                                         <td>${enq.subject || 'N/A'}</td>
                                         <td>
-                                            <span class="badge ${
-                                                enq.status === 'new' ? 'badge-danger' :
-                                                enq.status === 'read' ? 'badge-warning' : 'badge-success'
-                                            }">${enq.status}</span>
+                                            <span class="badge ${enq.status === 'new' ? 'badge-danger' :
+                        enq.status === 'read' ? 'badge-warning' : 'badge-success'
+                    }">${enq.status}</span>
                                         </td>
                                         <td>${formatDate(enq.submitted_at)}</td>
                                     </tr>
@@ -208,4 +211,5 @@
         });
     </script>
 </body>
+
 </html>

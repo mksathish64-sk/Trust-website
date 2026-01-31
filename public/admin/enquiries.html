@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,22 +8,24 @@
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
 </head>
+
 <body>
     <div class="admin-container">
         <aside class="admin-sidebar">
             <div class="admin-sidebar-header">
-                <h2>⚓ HopeHarbor Admin</h2>
-                <p id="admin-username">Admin</p>
+                <h2><i class="ri-anchor-line"></i> HopeHarbor Admin</h2>
+                <p id="admin-username">Admin Panel</p>
             </div>
             <ul class="admin-menu">
-                <li><a href="/admin/dashboard.html">📊 Dashboard</a></li>
-                <li><a href="/admin/programs.html">📚 Programs</a></li>
-                <li><a href="/admin/gallery.html">🖼️ Gallery</a></li>
-                <li><a href="/admin/announcements.html">📢 Announcements</a></li>
-                <li><a href="/admin/enquiries.html" class="active">✉️ Enquiries</a></li>
-                <li><a href="/admin/reports.html">📄 Reports</a></li>
-                <li><a href="#" onclick="logout()">🚪 Logout</a></li>
+                <li><a href="/admin/dashboard.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="/admin/programs.html"><i class="ri-book-open-line"></i> Programs</a></li>
+                <li><a href="/admin/gallery.html"><i class="ri-image-2-line"></i> Gallery</a></li>
+                <li><a href="/admin/announcements.html"><i class="ri-megaphone-line"></i> Announcements</a></li>
+                <li><a href="/admin/enquiries.html" class="active"><i class="ri-mail-star-line"></i> Enquiries</a></li>
+                <li><a href="/admin/reports.html"><i class="ri-file-list-3-line"></i> Reports</a></li>
+                <li><a href="#" onclick="logout()"><i class="ri-logout-box-r-line"></i> Logout</a></li>
             </ul>
         </aside>
 
@@ -33,7 +36,9 @@
 
             <div class="admin-content">
                 <div class="content-card">
-                    <div id="enquiries-container"><div class="loader"></div></div>
+                    <div id="enquiries-container">
+                        <div class="loader"></div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -43,7 +48,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Enquiry Details</h2>
-                <span class="modal-close" onclick="document.getElementById('viewModal').classList.remove('active')">&times;</span>
+                <span class="modal-close"
+                    onclick="document.getElementById('viewModal').classList.remove('active')">&times;</span>
             </div>
             <div id="enquiry-details"></div>
         </div>
@@ -56,7 +62,7 @@
             try {
                 const enquiries = await adminApiCall('/api/enquiries');
                 if (enquiries.length === 0) {
-                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">✉️</div><p>No enquiries yet</p></div>';
+                    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon"><i class="ri-mail-star-line"></i></div><p>No enquiries yet</p></div>';
                     return;
                 }
 
@@ -85,7 +91,7 @@
             try {
                 const enquiries = await adminApiCall('/api/enquiries');
                 const enq = enquiries.find(e => e.id === id);
-                
+
                 document.getElementById('enquiry-details').innerHTML = `
                     <p><strong>Name:</strong> ${enq.name}</p>
                     <p><strong>Email:</strong> ${enq.email}</p>
@@ -103,9 +109,9 @@
                         <button class="btn" onclick="updateStatus(${id})" style="width: 100%;">Update Status</button>
                     </div>
                 `;
-                
+
                 document.getElementById('viewModal').classList.add('active');
-                
+
                 if (enq.status === 'new') {
                     await adminApiCall(`/api/enquiries/${id}/status`, {
                         method: 'PUT',
@@ -150,4 +156,5 @@
         });
     </script>
 </body>
+
 </html>

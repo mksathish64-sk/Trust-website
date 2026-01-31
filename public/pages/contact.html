@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Trust</title>
+    <title>Contact Us - HopeHarbor Foundation</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     <style>
         .contact-hero {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -13,10 +15,17 @@
             text-align: center;
             margin-top: 70px;
         }
+
         .contact-hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
+            color: white;
         }
+
+        .contact-hero p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .contact-container {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -24,72 +33,91 @@
             max-width: 1200px;
             margin: 0 auto;
         }
+
         .contact-info {
             background: var(--white);
             padding: 2rem;
             border-radius: 10px;
             box-shadow: var(--shadow);
         }
+
         .contact-item {
             display: flex;
             align-items: flex-start;
             gap: 1rem;
             margin-bottom: 2rem;
         }
+
         .contact-item-icon {
             font-size: 2rem;
             color: var(--secondary-color);
         }
+
         .contact-item-content h3 {
             color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
+
         .contact-item-content p {
             color: var(--text-light);
         }
+
         .contact-form {
             background: var(--white);
             padding: 2rem;
             border-radius: 10px;
             box-shadow: var(--shadow);
         }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
+
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
             color: var(--primary-color);
             font-weight: 600;
         }
+
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 0.8rem;
-            border: 2px solid var(--bg-light);
+            border: 2px solid #cbd5e1;
+            /* Darker border for visibility */
+            background-color: #f8fafc;
+            /* Slight background tint */
             border-radius: 5px;
             font-family: inherit;
             font-size: 1rem;
             transition: var(--transition);
         }
+
         .form-group input:focus,
         .form-group textarea:focus {
             outline: none;
             border-color: var(--secondary-color);
+            background-color: white;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
         }
+
         .form-group textarea {
             resize: vertical;
             min-height: 150px;
         }
+
         .form-group.error input,
         .form-group.error textarea {
             border-color: var(--accent-color);
         }
+
         .error-message {
             color: var(--accent-color);
             font-size: 0.9rem;
             margin-top: 0.3rem;
         }
+
         @media (max-width: 768px) {
             .contact-container {
                 grid-template-columns: 1fr;
@@ -97,17 +125,18 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">🌟 Trust</a>
+            <a href="/" class="logo">HopeHarbor Foundation</a>
             <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/pages/about.html">About</a></li>
-                <li><a href="/pages/programs.html">Programs</a></li>
-                <li><a href="/pages/gallery.html">Gallery</a></li>
-                <li><a href="/pages/contact.html" class="active">Contact</a></li>
+                <li><a href="/"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="/pages/about.html"><i class="ri-team-line"></i> About</a></li>
+                <li><a href="/pages/programs.html"><i class="ri-hand-heart-line"></i> Programs</a></li>
+                <li><a href="/pages/gallery.html"><i class="ri-gallery-line"></i> Gallery</a></li>
+                <li><a href="/pages/contact.html" class="active"><i class="ri-mail-send-line"></i> Contact</a></li>
             </ul>
             <div class="menu-toggle">
                 <span></span>
@@ -120,7 +149,8 @@
     <!-- Contact Hero -->
     <div class="contact-hero">
         <h1>Get in Touch</h1>
-        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">We'd love to hear from you. Reach out with questions, suggestions, or to learn how you can help</p>
+        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">We'd love to hear from you. Reach out with
+            questions, suggestions, or to learn how you can help</p>
     </div>
 
     <!-- Contact Section -->
@@ -130,18 +160,18 @@
                 <!-- Contact Information -->
                 <div class="contact-info">
                     <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Contact Information</h2>
-                    
+
                     <div class="contact-item">
-                        <div class="contact-item-icon">📧</div>
+                        <div class="contact-item-icon"><i class="ri-mail-send-line"></i></div>
                         <div class="contact-item-content">
                             <h3>Email</h3>
-                            <p>info@trust.org</p>
-                            <p>support@trust.org</p>
+                            <p>info@hopeharbor.org</p>
+                            <p>support@hopeharbor.org</p>
                         </div>
                     </div>
 
                     <div class="contact-item">
-                        <div class="contact-item-icon">📞</div>
+                        <div class="contact-item-icon"><i class="ri-phone-line"></i></div>
                         <div class="contact-item-content">
                             <h3>Phone</h3>
                             <p>+1 234 567 8900</p>
@@ -150,17 +180,17 @@
                     </div>
 
                     <div class="contact-item">
-                        <div class="contact-item-icon">📍</div>
+                        <div class="contact-item-icon"><i class="ri-map-pin-line"></i></div>
                         <div class="contact-item-content">
                             <h3>Address</h3>
-                            <p>123 Trust Street</p>
+                            <p>123 HopeHarbor Street</p>
                             <p>City, State 12345</p>
                             <p>Country</p>
                         </div>
                     </div>
 
                     <div class="contact-item">
-                        <div class="contact-item-icon">🕒</div>
+                        <div class="contact-item-icon"><i class="ri-time-line"></i></div>
                         <div class="contact-item-content">
                             <h3>Office Hours</h3>
                             <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
@@ -173,7 +203,7 @@
                 <!-- Contact Form -->
                 <div class="contact-form">
                     <h2 style="color: var(--primary-color); margin-bottom: 2rem;">Send us a Message</h2>
-                    
+
                     <form id="contactForm">
                         <div class="form-group">
                             <label for="name">Name *</label>
@@ -215,25 +245,28 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About Trust</h3>
-                <p>We are committed to serving communities and creating lasting positive impact through our programs and initiatives.</p>
+                <h3>About HopeHarbor Foundation</h3>
+                <p>We are committed to serving communities and creating lasting positive impact through our programs and
+                    initiatives.</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="/">Home</a>
-                <a href="/pages/about.html">About Us</a>
-                <a href="/pages/programs.html">Programs</a>
-                <a href="/pages/gallery.html">Gallery</a>
+                <a href="/"><i class="ri-arrow-right-s-line"></i> Home</a>
+                <a href="/pages/about.html"><i class="ri-arrow-right-s-line"></i> About Us</a>
+                <a href="/pages/programs.html"><i class="ri-arrow-right-s-line"></i> Programs</a>
+                <a href="/pages/gallery.html"><i class="ri-arrow-right-s-line"></i> Gallery</a>
             </div>
             <div class="footer-section">
                 <h3>Contact</h3>
-                <p>📧 Email: info@trust.org</p>
-                <p>📞 Phone: +1 234 567 8900</p>
-                <p>📍 Address: 123 Trust Street, City</p>
+                <p><i class="ri-mail-line" style="margin-right: 8px;"></i> info@hopeharbor.org</p>
+                <p><i class="ri-phone-line" style="margin-right: 8px;"></i> +1 234 567 8900</p>
+                <p><i class="ri-map-pin-line" style="margin-right: 8px;"></i> 123 HopeHarbor Street, City</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;">Admin Login</a></p>
+            <p>&copy; 2026 HopeHarbor Foundation. All rights reserved. | <a href="/admin"
+                    style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;"><i
+                        class="ri-lock-line"></i> Admin Login</a></p>
         </div>
     </footer>
 
@@ -323,4 +356,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -4,8 +4,12 @@ const { pool } = require('../config/database');
 const { isAuthenticated } = require('../middleware/auth');
 const { sendToTelegram, formatContactMessage } = require('../utils/telegram');
 const { validateEmail, validatePhone } = require('../utils/helpers');
+const { sendAutoReply } = require('../utils/email');
 
 const router = express.Router();
+
+// Keywords to detect donation intent
+const DONATION_KEYWORDS = ['donate', 'donation', 'contribute', 'contribution', 'fund', 'support', 'help', 'money', 'giving', 'sponsor'];
 
 // Submit contact enquiry (public)
 router.post('/', [
@@ -31,12 +35,18 @@ router.post('/', [
             [name, email, phone || null, subject || null, message]
         );
 
-        // Send to Telegram
-        const telegramMessage = formatContactMessage({ name, email, phone, subject, message });
-        await sendToTelegram(telegramMessage);
+        // Detect if this is a donation-related enquiry
+        const textContent = `${subject || ''} ${message}`.toLowerCase();
+        const isDonation = DONATION_KEYWORDS.some(keyword => textContent.includes(keyword));
 
-        res.json({ 
-            success: true, 
+        // run in background to not block response
+        Promise.allSettled([
+            sendToTelegram(formatContactMessage({ name, email, phone, subject, message })),
+            sendAutoReply(email, name, isDonation)
+        ]).catch(err => console.error('Background task error:', err));
+
+        res.json({
+            success: true,
             message: 'Your enquiry has been submitted successfully. We will get back to you soon!'
         });
     } catch (error) {

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Programs - HopeHarbor</title>
+    <title>Our Programs - HopeHarbor Foundation</title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css">
     <style>
         .programs-hero {
@@ -13,10 +16,17 @@
             text-align: center;
             margin-top: 70px;
         }
+
         .programs-hero h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
+            color: white;
         }
+
+        .programs-hero p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
         .program-detail {
             display: none;
             max-width: 900px;
@@ -26,9 +36,11 @@
             border-radius: 10px;
             box-shadow: var(--shadow);
         }
+
         .program-detail.active {
             display: block;
         }
+
         .program-detail img {
             width: 100%;
             max-height: 400px;
@@ -36,6 +48,7 @@
             border-radius: 10px;
             margin-bottom: 2rem;
         }
+
         .back-btn {
             display: inline-block;
             padding: 0.5rem 1.5rem;
@@ -46,22 +59,24 @@
             margin-bottom: 1rem;
             transition: var(--transition);
         }
+
         .back-btn:hover {
             background: var(--primary-color);
         }
     </style>
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="/" class="logo">⚓ HopeHarbor</a>
+            <a href="/" class="logo">HopeHarbor Foundation</a>
             <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/pages/about.html">About</a></li>
-                <li><a href="/pages/programs.html" class="active">Programs</a></li>
-                <li><a href="/pages/gallery.html">Gallery</a></li>
-                <li><a href="/pages/contact.html">Contact</a></li>
+                <li><a href="/"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="/pages/about.html"><i class="ri-team-line"></i> About</a></li>
+                <li><a href="/pages/programs.html" class="active"><i class="ri-hand-heart-line"></i> Programs</a></li>
+                <li><a href="/pages/gallery.html"><i class="ri-gallery-line"></i> Gallery</a></li>
+                <li><a href="/pages/contact.html"><i class="ri-mail-send-line"></i> Contact</a></li>
             </ul>
             <div class="menu-toggle">
                 <span></span>
@@ -74,7 +89,8 @@
     <!-- Programs Hero -->
     <div class="programs-hero">
         <h1>Our Programs</h1>
-        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">Transforming lives through education, healthcare, and community development</p>
+        <p style="font-size: 1.2rem; max-width: 800px; margin: 1rem auto;">Transforming lives through education,
+            healthcare, and community development</p>
     </div>
 
     <!-- Programs List -->
@@ -97,25 +113,28 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>About HopeHarbor</h3>
-                <p>We are committed to serving communities and creating lasting positive impact through our programs and initiatives.</p>
+                <h3>About HopeHarbor Foundation</h3>
+                <p>We are committed to serving communities and creating lasting positive impact through our innovative
+                    programs and dedicated initiatives.</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
-                <a href="/">Home</a>
-                <a href="/pages/about.html">About Us</a>
-                <a href="/pages/programs.html">Programs</a>
-                <a href="/pages/gallery.html">Gallery</a>
+                <a href="/"><i class="ri-arrow-right-s-line"></i> Home</a>
+                <a href="/pages/about.html"><i class="ri-arrow-right-s-line"></i> About Us</a>
+                <a href="/pages/programs.html"><i class="ri-arrow-right-s-line"></i> Programs</a>
+                <a href="/pages/gallery.html"><i class="ri-arrow-right-s-line"></i> Gallery</a>
             </div>
             <div class="footer-section">
                 <h3>Contact</h3>
-                <p>📧 Email: info@hopeharbor.org</p>
-                <p>📞 Phone: +1 234 567 8900</p>
-                <p>📍 Address: 123 HopeHarbor Street, City</p>
+                <p><i class="ri-mail-line" style="margin-right: 8px;"></i> info@hopeharbor.org</p>
+                <p><i class="ri-phone-line" style="margin-right: 8px;"></i> +1 234 567 8900</p>
+                <p><i class="ri-map-pin-line" style="margin-right: 8px;"></i> 123 HopeHarbor Street, City</p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;">Admin Login</a></p>
+            <p>&copy; 2026 HopeHarbor Foundation. All rights reserved. | <a href="/admin"
+                    style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;"><i
+                        class="ri-lock-line"></i> Admin Login</a></p>
         </div>
     </footer>
 
@@ -123,12 +142,25 @@
     <script>
         let allPrograms = [];
 
+        // Helper to get relevant icon based on title
+        function getProgramIcon(title) {
+            const t = title.toLowerCase();
+            if (t.includes('education') || t.includes('school') || t.includes('learn') || t.includes('study')) return 'ri-book-open-line';
+            if (t.includes('health') || t.includes('medical') || t.includes('care') || t.includes('hospital')) return 'ri-heart-pulse-line';
+            if (t.includes('food') || t.includes('hunger') || t.includes('feed') || t.includes('nutrition')) return 'ri-restaurant-line';
+            if (t.includes('environment') || t.includes('nature') || t.includes('tree') || t.includes('planet')) return 'ri-plant-line';
+            if (t.includes('water') || t.includes('clean')) return 'ri-drop-line';
+            if (t.includes('women') || t.includes('girl')) return 'ri-women-line';
+            if (t.includes('house') || t.includes('home') || t.includes('shelter')) return 'ri-home-heart-line';
+            return 'ri-hand-heart-line'; // Default fallback
+        }
+
         async function loadPrograms() {
             const container = document.getElementById('programs-container');
-            
+
             try {
                 allPrograms = await apiCall('/api/programs');
-                
+
                 if (allPrograms.length === 0) {
                     container.innerHTML = '<p style="text-align: center; color: var(--text-light); grid-column: 1/-1;">No programs available at the moment.</p>';
                     return;
@@ -140,14 +172,14 @@
                             <img src="${program.image_url}" alt="${program.title}" class="card-image" 
                                  onerror="this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(program.title)}'">
                         ` : `
-                            <div class="card-image" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 3rem;">
-                                📚
+                            <div class="card-image" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                                <i class="${getProgramIcon(program.title)}"></i>
                             </div>
                         `}
                         <div class="card-content">
                             <h3>${program.title}</h3>
                             <p>${program.description}</p>
-                            <a href="#program-${program.id}" class="btn" style="margin-top: 1rem; display: inline-block;" onclick="event.stopPropagation();">Learn More</a>
+                            <a href="#program-${program.id}" class="btn" style="margin-top: 1rem; display: inline-block;" onclick="event.stopPropagation();"><i class="ri-eye-line" style="margin-right: 5px;"></i> Learn More</a>
                         </div>
                     </div>
                 `).join('');
@@ -173,11 +205,15 @@
             const detailSection = document.getElementById('program-detail-section');
 
             detailContainer.innerHTML = `
-                <a href="#" class="back-btn" onclick="hideProgramDetail(); return false;">← Back to Programs</a>
+                <a href="#" class="back-btn" onclick="hideProgramDetail(); return false;"><i class="ri-arrow-left-line"></i> Back to Programs</a>
                 ${program.image_url ? `
                     <img src="${program.image_url}" alt="${program.title}" 
                          onerror="this.src='https://via.placeholder.com/900x400?text=${encodeURIComponent(program.title)}'">
-                ` : ''}
+                ` : `
+                    <div style="width: 100%; height: 300px; background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 6rem; border-radius: 10px; margin-bottom: 2rem;">
+                        <i class="${getProgramIcon(program.title)}"></i>
+                    </div>
+                `}
                 <h1 style="color: var(--primary-color); margin-bottom: 1rem;">${program.title}</h1>
                 <p style="color: var(--text-light); line-height: 1.8; font-size: 1.1rem;">
                     ${program.full_description || program.description}
@@ -187,7 +223,7 @@
                     <p style="color: var(--text-light); margin-bottom: 1rem;">
                         Interested in supporting or learning more about this program? 
                     </p>
-                    <a href="/pages/contact.html" class="btn">Contact Us</a>
+                    <a href="/pages/contact.html" class="btn"><i class="ri-mail-send-line" style="margin-right: 5px;"></i> Contact Us</a>
                 </div>
             `;
 
@@ -224,4 +260,5 @@
         document.addEventListener('DOMContentLoaded', loadPrograms);
     </script>
 </body>
+
 </html>
