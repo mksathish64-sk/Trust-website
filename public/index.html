@@ -50,7 +50,8 @@
             <div class="hero-title-wrapper">
                 <h1>Empowering Communities, Transforming Lives</h1>
             </div>
-            <p>"When a neighbor is fed and a child is safe, hope remembers our name." Your gift keeps that promise alive.</p>
+            <p>"When a neighbor is fed and a child is safe, hope remembers our name." Your gift keeps that promise
+                alive.</p>
             <div>
                 <a href="/pages/programs.html" class="btn"><i class="ri-compass-3-line" style="margin-right: 8px;"></i>
                     Explore Programs</a>
@@ -131,13 +132,35 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section class="cta-section" id="lights-up-feature">
         <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Every Gift Keeps the Lights of Hope On</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">"A warm meal, a safe shelter, and a chance to dream again
+            <div class="bulb-wrapper">
+                <div class="wire"></div>
+                <div class="bulb-socket"></div>
+                <div class="bulb" id="glowing-bulb">
+                    <div class="filament">
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem; position: relative; z-index: 2;">Every Gift Keeps the
+                Lights of Hope On</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; position: relative; z-index: 2;">"A warm meal, a safe
+                shelter, and a chance to dream again
                 begin with someone like you."</p>
-            <a href="/pages/contact.html" class="btn" style="background: white; color: var(--primary-color);"><i
-                    class="ri-hand-heart-line" style="margin-right: 8px;"></i> Donate Now</a>
+
+            <div class="cta-buttons"
+                style="display: flex; gap: 1rem; justify-content: center; position: relative; z-index: 2;">
+                <button id="lights-up-btn" class="btn"
+                    style="background: white; color: var(--accent-color); border: none;">
+                    <i class="ri-lightbulb-flash-line" style="margin-right: 8px;"></i> Lights Up
+                </button>
+                <a href="/pages/contact.html" class="btn btn-secondary" style="border-color: white;">
+                    <i class="ri-hand-heart-line" style="margin-right: 8px;"></i> Donate Now
+                </a>
+            </div>
         </div>
     </section>
 

@@ -21,16 +21,16 @@ async function loadAnnouncements() {
                     ${announcement.event_date ? `
                         <p style="margin-top: 1rem; color: var(--accent-color); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
                             <i class="ri-calendar-line"></i> ${new Date(announcement.event_date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            })}
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })}
                         </p>
                     ` : ''}
                 </div>
             </div>
         `).join('');
-        
+
         // Re-observe newly added cards
         setTimeout(() => {
             const cards = container.querySelectorAll('.card');
@@ -41,7 +41,7 @@ async function loadAnnouncements() {
                     }
                 });
             }, { threshold: 0.1 });
-            
+
             cards.forEach(card => observer.observe(card));
         }, 100);
     } catch (error) {
@@ -77,7 +77,7 @@ async function loadProgramsPreview() {
                 </div>
             </div>
         `).join('');
-        
+
         // Re-observe newly added cards
         setTimeout(() => {
             const cards = container.querySelectorAll('.card');
@@ -88,7 +88,7 @@ async function loadProgramsPreview() {
                     }
                 });
             }, { threshold: 0.1 });
-            
+
             cards.forEach(card => observer.observe(card));
         }, 100);
     } catch (error) {
@@ -114,3 +114,30 @@ function getProgramIcon(title) {
     if (t.includes('house') || t.includes('home') || t.includes('shelter')) return 'ri-home-heart-line';
     return 'ri-hand-heart-line'; // Default fallback
 }
+
+// Bulb Feature
+document.addEventListener('DOMContentLoaded', () => {
+    const lightsUpBtn = document.getElementById('lights-up-btn');
+    const bulb = document.getElementById('glowing-bulb');
+
+    if (lightsUpBtn && bulb) {
+        lightsUpBtn.addEventListener('click', () => {
+            bulb.classList.toggle('glowing');
+
+            const isGlowing = bulb.classList.contains('glowing');
+            if (isGlowing) {
+                // Change style to indicate "on" state
+                lightsUpBtn.innerHTML = '<i class="ri-lightbulb-line" style="margin-right: 8px;"></i> Lights Off';
+                lightsUpBtn.style.background = '#facc15'; // Yellow-400
+                lightsUpBtn.style.color = '#1e293b'; // Slate-800
+                lightsUpBtn.style.boxShadow = '0 0 15px rgba(250, 204, 21, 0.4)';
+            } else {
+                // Revert to original style
+                lightsUpBtn.innerHTML = '<i class="ri-lightbulb-flash-line" style="margin-right: 8px;"></i> Lights Up';
+                lightsUpBtn.style.background = 'white';
+                lightsUpBtn.style.color = 'var(--accent-color)';
+                lightsUpBtn.style.boxShadow = 'none';
+            }
+        });
+    }
+});

@@ -314,6 +314,225 @@ a {
     margin-right: auto;
 }
 
+/* Glowing Bulb Feature */
+.bulb-wrapper {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.wire {
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.6));
+    margin: 0 auto;
+    position: relative;
+    animation: swing 3s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+@keyframes swing {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(2deg);
+    }
+
+    75% {
+        transform: rotate(-2deg);
+    }
+}
+
+.bulb-socket {
+    width: 35px;
+    height: 25px;
+    background: linear-gradient(to bottom,
+            #d1d5db 0%,
+            #9ca3af 40%,
+            #6b7280 100%);
+    margin: 0 auto;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* Screw threading effect */
+.bulb-socket::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom,
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.15) 2px,
+            rgba(0, 0, 0, 0.15) 4px);
+}
+
+/* Socket bottom connector */
+.bulb-socket::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 4px;
+    background: linear-gradient(to bottom, #4b5563, #374151);
+    border-radius: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bulb {
+    width: 70px;
+    height: 90px;
+    background: radial-gradient(ellipse at 35% 35%,
+            rgba(255, 255, 255, 0.95),
+            rgba(255, 255, 255, 0.7) 30%,
+            rgba(230, 230, 230, 0.5) 60%,
+            rgba(200, 200, 200, 0.4));
+    border-radius: 45% 45% 48% 48% / 55% 55% 45% 45%;
+    margin: 0 auto;
+    position: relative;
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.25),
+        inset -5px -5px 15px rgba(0, 0, 0, 0.1),
+        inset 5px 5px 15px rgba(255, 255, 255, 0.3);
+    transition: all 0.5s ease;
+    overflow: visible;
+}
+
+/* Glass shine effect */
+.bulb::before {
+    content: '';
+    position: absolute;
+    top: 12%;
+    left: 18%;
+    width: 22px;
+    height: 28px;
+    background: radial-gradient(ellipse at 30% 30%,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.4) 50%,
+            transparent);
+    border-radius: 50%;
+    opacity: 0.7;
+    transform: rotate(-15deg);
+}
+
+/* Bottom reflection */
+.bulb::after {
+    content: '';
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 15%;
+    background: radial-gradient(ellipse, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 50%;
+}
+
+.filament {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.filament span {
+    width: 20px;
+    height: 2px;
+    background: rgba(100, 100, 100, 0.4);
+    border-radius: 2px;
+    transition: all 0.5s ease;
+}
+
+/* Glowing state */
+.bulb.glowing {
+    background: radial-gradient(ellipse at 35% 35%,
+            #fffef7 0%,
+            #fff9db 20%,
+            #ffe680 50%,
+            #ffd700 80%,
+            #f5c842 100%);
+    box-shadow:
+        0 0 25px rgba(255, 215, 0, 0.8),
+        0 0 45px rgba(255, 215, 0, 0.6),
+        0 0 65px rgba(255, 215, 0, 0.4),
+        0 0 85px rgba(255, 215, 0, 0.2),
+        0 5px 15px rgba(0, 0, 0, 0.25),
+        inset -5px -5px 20px rgba(255, 200, 0, 0.3),
+        inset 5px 5px 20px rgba(255, 255, 255, 0.5);
+    animation: bulb-glow 2s ease-in-out infinite;
+}
+
+.bulb.glowing::before {
+    background: radial-gradient(ellipse at 30% 30%,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 200, 0.6) 50%,
+            transparent);
+    opacity: 0.9;
+}
+
+.bulb.glowing .filament span {
+    background: linear-gradient(to right, #ff8c00, #ff6b00, #ff4500);
+    box-shadow:
+        0 0 8px #ff6b00,
+        0 0 15px #ff6b00,
+        0 0 20px rgba(255, 107, 0, 0.5);
+    animation: filament-glow 1.5s ease-in-out infinite;
+}
+
+@keyframes bulb-glow {
+
+    0%,
+    100% {
+        filter: brightness(1);
+    }
+
+    50% {
+        filter: brightness(1.2);
+    }
+}
+
+@keyframes filament-glow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Add glow effect to the section when bulb is on */
+.cta-section:has(.bulb.glowing) {
+    background: linear-gradient(135deg,
+            var(--secondary-color),
+            var(--primary-color),
+            var(--secondary-hover),
+            rgba(255, 215, 0, 0.1));
+}
+
 /* Impact Section */
 .impact-section {
     padding: 6rem 0;
