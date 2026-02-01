@@ -74,12 +74,12 @@ async function startServer() {
     try {
         // Test database connection
         await testConnection();
-        
+
         // Get local IP address
         const os = require('os');
         const networkInterfaces = os.networkInterfaces();
         let localIP = 'localhost';
-        
+
         for (const interfaceName in networkInterfaces) {
             const interfaces = networkInterfaces[interfaceName];
             for (const iface of interfaces) {
@@ -89,17 +89,22 @@ async function startServer() {
                 }
             }
         }
-        
+
         app.listen(PORT, HOST, () => {
+            const localUrl = `http://localhost:${PORT}`;
+            const networkUrl = `http://${localIP}:${PORT}`;
+            const adminUrl = `http://${localIP}:${PORT}/admin`;
+            const env = process.env.NODE_ENV || 'development';
+
             console.log(`
 ╔═══════════════════════════════════════════════════════════════╗
 ║           Trust Website Server Started                        ║
 ╠═══════════════════════════════════════════════════════════════╣
-║  🌐 Local:    http://localhost:${PORT}                        ║
-║  🌐 Network:  http://${localIP}:${PORT}                       ║
-║  📊 Environment: ${process.env.NODE_ENV || 'development'}     ║
-║  🔒 Admin:    http://${localIP}:${PORT}/admin                 ║
-║                                                                ║
+║  🌐 Local:       ${localUrl.padEnd(43)} ║
+║  🌐 Network:     ${networkUrl.padEnd(43)} ║
+║  📊 Environment: ${env.padEnd(43)} ║
+║  🔒 Admin:       ${adminUrl.padEnd(43)} ║
+║                                                               ║
 ║  📱 Share the Network URL with friends on the same VPN/WiFi   ║
 ╚═══════════════════════════════════════════════════════════════╝
             `);

@@ -300,18 +300,58 @@ a {
 }
 
 .cta-section h2 {
-    color: #ffffff;
-    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: #fef3c7;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     font-weight: 800;
+    transition: all 0.5s ease;
 }
 
 .cta-section p {
-    color: #f8fafc;
+    color: #fef9e7;
     opacity: 1 !important;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
+    transition: all 0.5s ease;
+}
+
+/* Enhanced text colors when bulb is glowing */
+.cta-section:has(.bulb.glowing) h2 {
+    color: #fffbeb;
+    text-shadow: 0 4px 16px rgba(251, 191, 36, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.cta-section:has(.bulb.glowing) p {
+    color: #fffef7;
+    text-shadow: 0 2px 8px rgba(251, 191, 36, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* CTA Section Buttons */
+.cta-section .btn {
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.cta-section .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border-color: #fffbeb !important;
+    color: #fffbeb !important;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced button styles when bulb is glowing */
+.cta-section:has(.bulb.glowing) .btn-secondary {
+    background: rgba(255, 215, 0, 0.2) !important;
+    border-color: #fef3c7 !important;
+    color: #fffbeb !important;
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+}
+
+.cta-section:has(.bulb.glowing) .btn-secondary:hover {
+    background: rgba(255, 215, 0, 0.3) !important;
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.5);
 }
 
 /* Glowing Bulb Feature */
@@ -321,6 +361,24 @@ a {
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
+    animation: bulb-swing 4s ease-in-out infinite;
+    transform-origin: top center;
+}
+
+@keyframes bulb-swing {
+
+    0%,
+    100% {
+        transform: translateX(-50%) rotate(0deg);
+    }
+
+    25% {
+        transform: translateX(-50%) rotate(3deg);
+    }
+
+    75% {
+        transform: translateX(-50%) rotate(-3deg);
+    }
 }
 
 .wire {
@@ -329,8 +387,6 @@ a {
     background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.6));
     margin: 0 auto;
     position: relative;
-    animation: swing 3s ease-in-out infinite;
-    transform-origin: top center;
 }
 
 @keyframes swing {
@@ -531,6 +587,284 @@ a {
             var(--primary-color),
             var(--secondary-hover),
             rgba(255, 215, 0, 0.1));
+}
+
+/* Horizontal Scrolling Cards Section */
+.scrolling-cards-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, rgba(37, 99, 235, 0.05) 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+.scrolling-cards-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.scrolling-cards-wrapper::before,
+.scrolling-cards-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.scrolling-cards-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #f8fafc, transparent);
+}
+
+.scrolling-cards-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #f8fafc, transparent);
+}
+
+.scrolling-cards-track {
+    display: flex;
+    gap: 2rem;
+    animation: scroll-horizontal 40s linear infinite;
+    width: fit-content;
+}
+
+.scrolling-cards-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-horizontal {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.scroll-card {
+    min-width: 320px;
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition-normal);
+    border: 1px solid rgba(37, 99, 235, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-trust);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.scroll-card:hover::before {
+    transform: scaleX(1);
+}
+
+.scroll-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15);
+    border-color: var(--secondary-color);
+}
+
+.scroll-card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--gradient-trust);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: var(--transition-normal);
+}
+
+.scroll-card:hover .scroll-card-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.scroll-card-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.scroll-card h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.scroll-card p {
+    color: var(--text-medium);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .scroll-card {
+        min-width: 280px;
+        padding: 2rem 1.5rem;
+    }
+
+    .scrolling-cards-track {
+        animation-duration: 30s;
+    }
+}
+
+/* Horizontal Scrolling Cards Section */
+.scrolling-cards-section {
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #f8fafc 0%, rgba(37, 99, 235, 0.05) 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+.scrolling-cards-wrapper {
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.scrolling-cards-wrapper::before,
+.scrolling-cards-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.scrolling-cards-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #f8fafc, transparent);
+}
+
+.scrolling-cards-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #f8fafc, transparent);
+}
+
+.scrolling-cards-track {
+    display: flex;
+    gap: 2rem;
+    animation: scroll-horizontal 40s linear infinite;
+    width: fit-content;
+}
+
+.scrolling-cards-track:hover {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-horizontal {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.scroll-card {
+    min-width: 320px;
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 2.5rem 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: var(--transition-normal);
+    border: 1px solid rgba(37, 99, 235, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.scroll-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-trust);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.scroll-card:hover::before {
+    transform: scaleX(1);
+}
+
+.scroll-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(37, 99, 235, 0.15);
+    border-color: var(--secondary-color);
+}
+
+.scroll-card-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--gradient-trust);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    transition: var(--transition-normal);
+}
+
+.scroll-card:hover .scroll-card-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+}
+
+.scroll-card-icon i {
+    font-size: 2rem;
+    color: white;
+}
+
+.scroll-card h3 {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.scroll-card p {
+    color: var(--text-medium);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .scroll-card {
+        min-width: 280px;
+        padding: 2rem 1.5rem;
+    }
+
+    .scrolling-cards-track {
+        animation-duration: 30s;
+    }
 }
 
 /* Impact Section */
