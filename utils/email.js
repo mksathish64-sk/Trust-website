@@ -61,6 +61,30 @@ const templates = {
                 </div>
             </div>
         `
+    }),
+    passwordChanged: (name) => ({
+        subject: '🔒 Your Password Has Been Changed - HopeHarbor Foundation',
+        html: `
+            <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333; line-height: 1.6;">
+                <div style="background: #0f172a; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+                    <h1 style="color: white; margin: 0; font-size: 24px;">HopeHarbor Foundation</h1>
+                </div>
+                <div style="padding: 30px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 10px 10px; background: #fff;">
+                    <p>Dear <strong>${name}</strong>,</p>
+                    
+                    <p style="color: #16a34a; font-weight: bold;">✓ Your password has been successfully changed.</p>
+                    
+                    <p>If you did not make this change or have any concerns about your account security, please contact our support team immediately.</p>
+                    
+                    <p style="background-color: #fef2f2; padding: 15px; border-left: 4px solid #dc2626; color: #7f1d1d;">
+                        <strong>Security Tip:</strong> Always use a strong, unique password and never share your credentials with anyone.
+                    </p>
+                    
+                    <p>Best regards,</p>
+                    <p><strong>The HopeHarbor Team</strong></p>
+                </div>
+            </div>
+        `
     })
 };
 
@@ -95,4 +119,33 @@ const sendAutoReply = async (toEmail, name, isDonation = false) => {
     }
 };
 
-module.exports = { sendAutoReply };
+/**
+ * Send password change confirmation email
+ * @param {string} toEmail - Recipient email
+ * @param {string} name - Recipient name
+ */
+const sendPasswordChangeEmail = async (toEmail, name) => {
+    try {
+        if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
+            console.warn('⚠️ SMTP Configuration missing. Email not sent.');
+            return false;
+        }
+
+        const template = templates.passwordChanged(name);
+
+        const info = await transporter.sendMail({
+            from: process.env.SMTP_FROM || '"HopeHarbor Foundation" <no-reply@hopeharbor.org>',
+            to: toEmail,
+            subject: template.subject,
+            html: template.html
+        });
+
+        console.log('📧 Password change email sent:', info.messageId);
+        return true;
+    } catch (error) {
+        console.error('❌ Error sending password change email:', error);
+        return false;
+    }
+};
+
+module.exports = { sendAutoReply, sendPasswordChangeEmail };

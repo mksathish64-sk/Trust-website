@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { pool } = require('../config/database');
 const { isAuthenticated, isNotAuthenticated } = require('../middleware/auth');
+const { sendPasswordChangeEmail } = require('../utils/email');
 
 const router = express.Router();
 
@@ -103,6 +104,11 @@ router.post('/change-password', isAuthenticated, async (req, res) => {
             'UPDATE admins SET password = ? WHERE id = ?',
             [hashedPassword, req.session.adminId]
         );
+
+        // Send confirmation email
+        const adminEmail = admin.email || process.env.ADMIN_EMAIL || 'admin@hopeharbor.org';
+        const adminName = admin.name || admin.username || 'Administrator';
+        await sendPasswordChangeEmail(adminEmail, adminName);
 
         res.json({ success: true, message: 'Password changed successfully' });
     } catch (error) {

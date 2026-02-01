@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - HopeHarbor Foundation</title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .settings-container {
+            max-width: 600px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .settings-section {
+            margin-bottom: 30px;
+        }
+
+        .settings-section h3 {
+            color: #0f172a;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-section h3 i {
+            color: #2563eb;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .password-requirements {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .password-requirements ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+        .password-requirements li {
+            margin: 5px 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .btn-change {
+            background: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-change:hover {
+            background: #1d4ed8;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-cancel {
+            background: #e2e8f0;
+            color: #475569;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .btn-cancel:hover {
+            background: #cbd5e1;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            border: 1px solid #86efac;
+            color: #166534;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: #2563eb;
+        }
+
+        .loading span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #2563eb;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: pulse 1.4s infinite;
+        }
+
+        .loading span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .loading span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="admin-sidebar-header">
+                <h2><i class="ri-anchor-line"></i> HopeHarbor Admin</h2>
+                <p id="admin-username">Admin Panel</p>
+            </div>
+            <ul class="admin-menu">
+                <li><a href="/admin/dashboard.html"><i class="ri-dashboard-line"></i> Dashboard</a></li>
+                <li><a href="/admin/programs.html"><i class="ri-book-open-line"></i> Programs</a></li>
+                <li><a href="/admin/gallery.html"><i class="ri-image-2-line"></i> Gallery</a></li>
+                <li><a href="/admin/announcements.html"><i class="ri-megaphone-line"></i> Announcements</a></li>
+                <li><a href="/admin/enquiries.html"><i class="ri-mail-star-line"></i> Enquiries</a></li>
+                <li><a href="/admin/reports.html"><i class="ri-file-list-3-line"></i> Reports</a></li>
+                <li><a href="/admin/settings.html" class="active"><i class="ri-settings-3-line"></i> Settings</a></li>
+                <li><a href="#" onclick="logout()"><i class="ri-logout-box-r-line"></i> Logout</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <h1>Account Settings</h1>
+                <div>
+                    <button class="btn btn-small" onclick="window.open('/', '_blank')"><i
+                            class="ri-external-link-line"></i> View Website</button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <div class="settings-container">
+                    <div id="success-message" class="success-message">
+                        <i class="ri-check-line"></i> Password changed successfully! A confirmation email has been sent.
+                    </div>
+                    <div id="error-message" class="error-message">
+                        <i class="ri-error-warning-line"></i> <span id="error-text"></span>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>
+                            <i class="ri-lock-password-line"></i>
+                            Change Password
+                        </h3>
+
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input 
+                                    type="password" 
+                                    id="currentPassword" 
+                                    name="currentPassword" 
+                                    placeholder="Enter your current password"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input 
+                                    type="password" 
+                                    id="newPassword" 
+                                    name="newPassword" 
+                                    placeholder="Enter a new password"
+                                    required
+                                >
+                                <div class="password-requirements">
+                                    <strong>Password Requirements:</strong>
+                                    <ul>
+                                        <li>At least 6 characters long</li>
+                                        <li>Use a mix of uppercase and lowercase letters</li>
+                                        <li>Include at least one number</li>
+                                        <li>Include special characters (e.g., !@#$)</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword" 
+                                    placeholder="Confirm your new password"
+                                    required
+                                >
+                            </div>
+
+                            <div class="loading" id="loading">
+                                <span></span><span></span><span></span>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn-change">
+                                    <i class="ri-check-line"></i> Change Password
+                                </button>
+                                <button type="button" class="btn-cancel" onclick="resetForm()">
+                                    <i class="ri-close-line"></i> Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check authentication on page load
+        window.addEventListener('load', async () => {
+            try {
+                const response = await fetch('/api/auth/status');
+                const data = await response.json();
+
+                if (!data.authenticated) {
+                    window.location.href = '/admin/login.html';
+                    return;
+                }
+
+                document.getElementById('admin-username').textContent = `${data.username}`;
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                window.location.href = '/admin/login.html';
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validate passwords match
+            if (newPassword !== confirmPassword) {
+                showError('New passwords do not match');
+                return;
+            }
+
+            // Validate password length
+            if (newPassword.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('changePasswordForm').style.opacity = '0.6';
+            document.getElementById('changePasswordForm').style.pointerEvents = 'none';
+
+            try {
+                const response = await fetch('/api/auth/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        currentPassword,
+                        newPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to change password');
+                }
+
+                // Show success message
+                showSuccess('Password changed successfully! A confirmation email has been sent.');
+                resetForm();
+
+                // Redirect to dashboard after 3 seconds
+                setTimeout(() => {
+                    window.location.href = '/admin/dashboard.html';
+                }, 3000);
+            } catch (error) {
+                showError(error.message);
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('changePasswordForm').style.opacity = '1';
+                document.getElementById('changePasswordForm').style.pointerEvents = 'auto';
+            }
+        });
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('success-message');
+            successEl.style.display = 'block';
+            successEl.innerHTML = `<i class="ri-check-line"></i> ${message}`;
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            errorEl.style.display = 'block';
+            errorText.textContent = message;
+        }
+
+        function resetForm() {
+            document.getElementById('changePasswordForm').reset();
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('success-message').style.display = 'none';
+        }
+
+        function logout() {
+            fetch('/api/auth/logout', { method: 'POST' })
+                .then(() => {
+                    window.location.href = '/admin/login.html';
+                });
+        }
+    </script>
+</body>
+
+</html>

@@ -10,18 +10,17 @@ async function loadAnnouncements() {
             return;
         }
 
-        container.innerHTML = data.slice(0, 3).map(announcement => `
-            <div class="card">
+        container.innerHTML = data.slice(0, 3).map((announcement, index) => `
+            <div class="card reveal stagger-${index + 1}">
                 <div class="card-content">
-                    <span style="display: inline-block; padding: 0.3rem 1rem; background: ${announcement.type === 'event' ? 'var(--accent-color)' : 'var(--secondary-color)'
-            }; color: white; border-radius: 20px; font-size: 0.85rem; margin-bottom: 1rem;">
+                    <span style="display: inline-block; padding: 0.3rem 1rem; background: ${announcement.type === 'event' ? 'var(--accent-color)' : 'var(--gradient-trust)'}; color: white; border-radius: 20px; font-size: 0.85rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         ${announcement.type === 'event' ? '📅 Event' : '📢 Announcement'}
                     </span>
                     <h3>${announcement.title}</h3>
                     <p>${announcement.content.substring(0, 150)}${announcement.content.length > 150 ? '...' : ''}</p>
                     ${announcement.event_date ? `
-                        <p style="margin-top: 1rem; color: var(--accent-color); font-weight: 600;">
-                            📆 ${new Date(announcement.event_date).toLocaleDateString('en-US', {
+                        <p style="margin-top: 1rem; color: var(--accent-color); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="ri-calendar-line"></i> ${new Date(announcement.event_date).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
@@ -31,6 +30,20 @@ async function loadAnnouncements() {
                 </div>
             </div>
         `).join('');
+        
+        // Re-observe newly added cards
+        setTimeout(() => {
+            const cards = container.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => observer.observe(card));
+        }, 100);
     } catch (error) {
         container.innerHTML = '<p style="text-align: center; color: var(--accent-color);">Failed to load announcements.</p>';
     }
@@ -48,14 +61,14 @@ async function loadProgramsPreview() {
             return;
         }
 
-        container.innerHTML = data.slice(0, 3).map(program => `
-            <div class="card" onclick="window.location.href='/pages/programs.html#program-${program.id}'">
+        container.innerHTML = data.slice(0, 3).map((program, index) => `
+            <div class="card reveal stagger-${index + 1}" onclick="window.location.href='/pages/programs.html#program-${program.id}'">
                 ${program.image_url ? `
                     <img src="${program.image_url}" alt="${program.title}" class="card-image" 
                          onerror="this.src='https://via.placeholder.com/400x250?text=${encodeURIComponent(program.title)}'">
                 ` : `
-                    <div class="card-image" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
-                        <i class="${getProgramIcon(program.title)}"></i>
+                    <div class="card-image" style="background: var(--gradient-trust); display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                        <i class="${getProgramIcon(program.title)} float-animation"></i>
                     </div>
                 `}
                 <div class="card-content">
@@ -64,6 +77,20 @@ async function loadProgramsPreview() {
                 </div>
             </div>
         `).join('');
+        
+        // Re-observe newly added cards
+        setTimeout(() => {
+            const cards = container.querySelectorAll('.card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            cards.forEach(card => observer.observe(card));
+        }, 100);
     } catch (error) {
         container.innerHTML = '<p style="text-align: center; color: var(--accent-color);">Failed to load programs.</p>';
     }

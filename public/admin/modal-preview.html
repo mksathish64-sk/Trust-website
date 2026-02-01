@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Preview - HopeHarbor Foundation</title>
+    <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .preview-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .preview-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .preview-header h1 {
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        .preview-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .demo-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 16px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #0f172a;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .demo-btn:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .modal-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="preview-container">
+        <div class="preview-header">
+            <h1>🎨 Custom Modal Preview</h1>
+            <p>Test all modal types used in HopeHarbor Admin Panel</p>
+        </div>
+
+        <div class="buttons-grid">
+            <button class="demo-btn" onclick="showConfirmExample()">Confirm Modal</button>
+            <button class="demo-btn" onclick="showInfoExample()">Info Modal</button>
+            <button class="demo-btn" onclick="showSuccessExample()">Success Modal</button>
+            <button class="demo-btn" onclick="showErrorExample()">Error Modal</button>
+            <button class="demo-btn" onclick="showLogoutExample()">Logout Modal</button>
+            <button class="demo-btn" onclick="showLoginErrorExample()">Login Error Modal</button>
+        </div>
+    </div>
+
+    <script>
+        // Custom Modal System
+        class CustomModal {
+            constructor(type = 'info') {
+                this.type = type;
+                this.modal = null;
+            }
+
+            create() {
+                const existingModal = document.getElementById('custom-modal');
+                if (existingModal) existingModal.remove();
+
+                this.modal = document.createElement('div');
+                this.modal.id = 'custom-modal';
+                this.modal.className = `custom-modal ${this.type}`;
+                this.modal.innerHTML = `
+                    <div class="modal-backdrop"></div>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <div class="modal-icon"></div>
+                        </div>
+                        <div class="modal-body">
+                            <h2 class="modal-title"></h2>
+                            <p class="modal-message"></p>
+                        </div>
+                        <div class="modal-footer"></div>
+                    </div>
+                `;
+                document.body.appendChild(this.modal);
+                return this;
+            }
+
+            setTitle(title) {
+                this.modal.querySelector('.modal-title').textContent = title;
+                return this;
+            }
+
+            setMessage(message) {
+                this.modal.querySelector('.modal-message').textContent = message;
+                return this;
+            }
+
+            addButton(text, callback, isPrimary = false) {
+                const button = document.createElement('button');
+                button.className = `modal-btn ${isPrimary ? 'primary' : 'secondary'}`;
+                button.textContent = text;
+                button.onclick = () => {
+                    if (callback) callback();
+                    this.close();
+                };
+                this.modal.querySelector('.modal-footer').appendChild(button);
+                return this;
+            }
+
+            close() {
+                if (this.modal) {
+                    this.modal.classList.add('closing');
+                    setTimeout(() => {
+                        if (this.modal) this.modal.remove();
+                    }, 300);
+                }
+            }
+
+            show() {
+                if (this.modal) {
+                    this.modal.classList.add('active');
+                }
+            }
+        }
+
+        function showConfirmExample() {
+            const modal = new CustomModal('confirm').create();
+            modal.setTitle('Confirm Action')
+                .setMessage('Are you sure you want to logout from your account?')
+                .addButton('Cancel', () => console.log('Cancelled'))
+                .addButton('Confirm', () => console.log('Confirmed'), true)
+                .show();
+        }
+
+        function showInfoExample() {
+            const modal = new CustomModal('info').create();
+            modal.setTitle('Information')
+                .setMessage('Your password must be at least 6 characters long and include special characters.')
+                .addButton('OK', null, true)
+                .show();
+        }
+
+        function showSuccessExample() {
+            const modal = new CustomModal('success').create();
+            modal.setTitle('Success')
+                .setMessage('Password changed successfully! A confirmation email has been sent.')
+                .addButton('OK', () => console.log('Acknowledged'), true)
+                .show();
+        }
+
+        function showErrorExample() {
+            const modal = new CustomModal('error').create();
+            modal.setTitle('Error')
+                .setMessage('Invalid username or password. Please try again.')
+                .addButton('Try Again', null, true)
+                .show();
+        }
+
+        function showLogoutExample() {
+            const modal = new CustomModal('confirm').create();
+            modal.setTitle('Logout')
+                .setMessage('Are you sure you want to logout from your account?')
+                .addButton('Cancel', () => console.log('Logout cancelled'))
+                .addButton('Logout', () => console.log('Logging out...'), true)
+                .show();
+        }
+
+        function showLoginErrorExample() {
+            const modal = new CustomModal('error').create();
+            modal.setTitle('Login Failed')
+                .setMessage('The credentials you provided are incorrect. Please check your username and password.')
+                .addButton('Try Again', null, true)
+                .show();
+        }
+    </script>
+</body>
+
+</html>

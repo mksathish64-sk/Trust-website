@@ -22,16 +22,115 @@ async function checkAuth() {
     }
 }
 
+// Custom Modal System
+class CustomModal {
+    constructor(type = 'info') {
+        this.type = type;
+        this.modal = null;
+    }
+
+    create() {
+        // Remove existing modal if any
+        const existingModal = document.getElementById('custom-modal');
+        if (existingModal) existingModal.remove();
+
+        this.modal = document.createElement('div');
+        this.modal.id = 'custom-modal';
+        this.modal.className = `custom-modal ${this.type}`;
+        this.modal.innerHTML = `
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-icon"></div>
+                </div>
+                <div class="modal-body">
+                    <h2 class="modal-title"></h2>
+                    <p class="modal-message"></p>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        `;
+        document.body.appendChild(this.modal);
+        return this;
+    }
+
+    setTitle(title) {
+        this.modal.querySelector('.modal-title').textContent = title;
+        return this;
+    }
+
+    setMessage(message) {
+        this.modal.querySelector('.modal-message').textContent = message;
+        return this;
+    }
+
+    addButton(text, callback, isPrimary = false) {
+        const button = document.createElement('button');
+        button.className = `modal-btn ${isPrimary ? 'primary' : 'secondary'}`;
+        button.textContent = text;
+        button.onclick = () => {
+            if (callback) callback();
+            this.close();
+        };
+        this.modal.querySelector('.modal-footer').appendChild(button);
+        return this;
+    }
+
+    close() {
+        if (this.modal) {
+            this.modal.classList.add('closing');
+            setTimeout(() => {
+                if (this.modal) this.modal.remove();
+            }, 300);
+        }
+    }
+
+    show() {
+        if (this.modal) {
+            this.modal.classList.add('active');
+        }
+    }
+}
+
+// Show confirm dialog
+function showConfirmModal(message, onConfirm, onCancel = null) {
+    const modal = new CustomModal('confirm').create();
+    modal.setTitle('Confirm Action')
+        .setMessage(message)
+        .addButton('Cancel', onCancel)
+        .addButton('Confirm', onConfirm, true)
+        .show();
+}
+
+// Show alert dialog
+function showAlertModal(message, title = 'Alert', type = 'info') {
+    const modal = new CustomModal(type).create();
+    modal.setTitle(title)
+        .setMessage(message)
+        .addButton('OK', null, true)
+        .show();
+}
+
 // Logout function
 async function logout() {
-    if (!confirm('Are you sure you want to logout?')) return;
+    showConfirmModal(
+        'Are you sure you want to logout from your account?',
+        async () => {
+            try {
+                const modal = new CustomModal('loading').create();
+                modal.setTitle('Logging Out')
+                    .setMessage('Please wait...')
+                    .show();
 
-    try {
-        await fetch('/api/auth/logout', { method: 'POST' });
-        window.location.href = '/admin/login.html';
-    } catch (error) {
-        alert('Logout failed');
-    }
+                await fetch('/api/auth/logout', { method: 'POST' });
+                setTimeout(() => {
+                    window.location.href = '/admin/login.html';
+                }, 500);
+            } catch (error) {
+                showAlertModal('Logout failed. Please try again.', 'Error', 'error');
+            }
+        }
+    );
 }
 
 // API call with auth handling
@@ -136,3 +235,4 @@ function toggleMobileMenu() {
 document.addEventListener('DOMContentLoaded', () => {
     checkAuth();
 });
+

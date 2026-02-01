@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HopeHarbor Foundation - Transforming Lives Together</title>
     <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -31,22 +33,57 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-slider">
-            <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920');">
+            <div class="hero-slide active"
+                style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920');">
                 <div class="hero-overlay"></div>
             </div>
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1920');">
+            <div class="hero-slide"
+                style="background-image: url('https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=1920');">
                 <div class="hero-overlay"></div>
             </div>
-            <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920');">
+            <div class="hero-slide"
+                style="background-image: url('https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?w=1920');">
                 <div class="hero-overlay"></div>
             </div>
         </div>
         <div class="hero-content">
-            <h1>Empowering Communities, Transforming Lives</h1>
-            <p>Join us in creating lasting positive change through compassion, innovation, and dedicated service</p>
+            <div class="hero-title-wrapper">
+                <h1>Empowering Communities, Transforming Lives</h1>
+            </div>
+            <p>"When a neighbor is fed and a child is safe, hope remembers our name." Your gift keeps that promise alive.</p>
             <div>
-                <a href="/pages/programs.html" class="btn"><i class="ri-compass-3-line" style="margin-right: 8px;"></i> Explore Programs</a>
-                <a href="/pages/contact.html" class="btn btn-secondary"><i class="ri-user-heart-line" style="margin-right: 8px;"></i> Get Involved</a>
+                <a href="/pages/programs.html" class="btn"><i class="ri-compass-3-line" style="margin-right: 8px;"></i>
+                    Explore Programs</a>
+                <a href="/pages/contact.html" class="btn btn-secondary"><i class="ri-hand-heart-line"
+                        style="margin-right: 8px;"></i> Donate to Help Them</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section class="impact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Impact</h2>
+                <p>Together, we are creating tangible change in communities worldwide</p>
+            </div>
+            <div class="impact-grid" id="impact-counters">
+                <div class="impact-item">
+                    <div class="impact-number" data-target="15000">0</div>
+                    <div class="impact-label">Lives Impacted</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-number" data-target="120">0</div>
+                    <div class="impact-label">Communities Served</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-number" data-target="50">0</div>
+                    <div class="impact-label">Active Programs</div>
+                </div>
+                <div class="impact-item">
+                    <div class="impact-number" data-target="2500">0</div>
+                    <div class="impact-label">Volunteers</div>
+                </div>
             </div>
         </div>
     </section>
@@ -64,6 +101,18 @@
         </div>
     </section>
 
+    <!-- Parallax Hope Section -->
+    <section class="parallax-section">
+        <div class="parallax-overlay"></div>
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="parallax-content">
+                <h2>"Every donation is a quiet whisper to the weary: you are not alone."</h2>
+                <p>- HopeHarbor Community Promise</p>
+                <a href="/pages/contact.html" class="btn" style="margin-top: 2rem;">Donate to Help Them</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Programs Preview Section -->
     <section>
         <div class="container">
@@ -75,17 +124,20 @@
                 <div class="loader"></div>
             </div>
             <div style="text-align: center; margin-top: 3rem;">
-                <a href="/pages/programs.html" class="btn"><i class="ri-arrow-right-line" style="margin-right: 8px;"></i> View All Programs</a>
+                <a href="/pages/programs.html" class="btn"><i class="ri-arrow-right-line"
+                        style="margin-right: 8px;"></i> View All Programs</a>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); color: white; text-align: center;">
+    <section class="cta-section">
         <div class="container">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Join Us in Making a Difference</h2>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">Your support can transform lives and strengthen communities</p>
-            <a href="/pages/contact.html" class="btn" style="background: white; color: var(--primary-color);"><i class="ri-chat-1-line" style="margin-right: 8px;"></i> Contact Us Today</a>
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Every Gift Keeps the Lights of Hope On</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">"A warm meal, a safe shelter, and a chance to dream again
+                begin with someone like you."</p>
+            <a href="/pages/contact.html" class="btn" style="background: white; color: var(--primary-color);"><i
+                    class="ri-hand-heart-line" style="margin-right: 8px;"></i> Donate Now</a>
         </div>
     </section>
 
@@ -94,7 +146,8 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h3>About HopeHarbor Foundation</h3>
-                <p>We are committed to serving communities and creating lasting positive impact through our innovative programs and dedicated initiatives.</p>
+                <p>We are committed to serving communities and creating lasting positive impact through our innovative
+                    programs and dedicated initiatives.</p>
             </div>
             <div class="footer-section">
                 <h3>Quick Links</h3>
@@ -111,11 +164,14 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin" style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;"><i class="ri-lock-line"></i> Admin Login</a></p>
+            <p>&copy; 2026 Trust. All rights reserved. | <a href="/admin"
+                    style="color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.85rem;"><i
+                        class="ri-lock-line"></i> Admin Login</a></p>
         </div>
     </footer>
 
     <script src="/js/main.js"></script>
     <script src="/js/home.js"></script>
 </body>
+
 </html>

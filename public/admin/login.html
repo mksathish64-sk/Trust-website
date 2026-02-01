@@ -12,18 +12,55 @@
 </head>
 
 <body>
-    <div class="admin-login">
-        <div class="login-container">
+    <div class="admin-login glow-on" id="adminLogin">
+        <div class="login-showcase">
+            <div class="showcase-content">
+                <p class="eyebrow-text">HopeHarbor Foundation</p>
+                <h2>Secure Access, Guided by Purpose</h2>
+                <p class="supporting-text">Manage impact programs with confidence while the ambient glow keeps the
+                    portal alive and welcoming.</p>
+                <div class="glow-meter">
+                    <span class="meter-dot"></span>
+                    <span>Ambient security glow active</span>
+                </div>
+            </div>
+            <div class="bulb-lamp" aria-hidden="true">
+                <span class="lamp-cord"></span>
+                <div class="lamp-bulb">
+                    <span class="bulb-inner"></span>
+                    <span class="bulb-filament"></span>
+                    <span class="bulb-glow"></span>
+                </div>
+                <span class="lamp-spark spark-1"></span>
+                <span class="lamp-spark spark-2"></span>
+            </div>
+            <div class="glow-orb"></div>
+        </div>
+
+        <div class="login-container" id="loginCard">
+            <button class="ambient-toggle active" id="ambientToggle" type="button" aria-pressed="true">
+                <span class="toggle-icon">
+                    <i class="ri-lightbulb-line"></i>
+                    <i class="ri-lightbulb-flash-line"></i>
+                </span>
+                <div class="toggle-text">
+                    <strong>Ambient Glow</strong>
+                    <small>Tap to dim or brighten</small>
+                </div>
+                <span class="toggle-switch">
+                    <span class="switch-handle"></span>
+                </span>
+            </button>
+
             <div class="login-header">
-                <!-- Removed image if not present, but user said 'logo is fine', assuming text or image -->
-                <div style="font-size: 3rem; text-align: center; color: var(--primary-color); margin-bottom: 1rem;">
+                <div class="login-logo">
                     <i class="ri-anchor-line"></i>
                 </div>
-                <h1 style="text-align: center;">HopeHarbor Admin</h1>
-                <p style="text-align: center; color: var(--text-medium);">Secure Portal - Manage Your Platform</p>
+                <h1>HopeHarbor Admin</h1>
+                <p>Secure Portal · Manage Your Platform</p>
             </div>
 
-            <form id="loginForm">
+            <form id="loginForm" method="POST">
                 <div class="form-group">
                     <label for="username"><i class="ri-user-line"></i> Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter your username" required
@@ -35,13 +72,13 @@
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
 
-                <button type="submit" class="btn" style="width: 100%; margin-top: 1.5rem;">
-                    <i class="ri-login-circle-line" style="margin-right: 8px;"></i> Sign In Securely
+                <button type="submit" class="btn full-width">
+                    <i class="ri-login-circle-line"></i> Sign In Securely
                 </button>
             </form>
 
-            <div style="text-align: center; margin-top: 2rem;">
-                <a href="/" style="color: var(--text-light); text-decoration: none; transition: var(--transition);">
+            <div class="login-footer">
+                <a href="/">
                     <i class="ri-arrow-left-line"></i> Back to Website
                 </a>
             </div>
@@ -89,6 +126,26 @@
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Sign In';
             }
+        });
+
+        // Ambient glow toggle
+        const adminLogin = document.getElementById('adminLogin');
+        const ambientToggle = document.getElementById('ambientToggle');
+        const loginCard = document.getElementById('loginCard');
+
+        const setAmbientGlow = (isOn) => {
+            if (!adminLogin || !ambientToggle || !loginCard) return;
+            adminLogin.classList.toggle('glow-on', isOn);
+            loginCard.classList.toggle('glow-on', isOn);
+            ambientToggle.classList.toggle('active', isOn);
+            ambientToggle.setAttribute('aria-pressed', isOn.toString());
+        };
+
+        setAmbientGlow(true);
+
+        ambientToggle?.addEventListener('click', () => {
+            const nextState = !ambientToggle.classList.contains('active');
+            setAmbientGlow(nextState);
         });
     </script>
 </body>
